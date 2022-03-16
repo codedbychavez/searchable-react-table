@@ -3,12 +3,25 @@ import ProductRow from "../atoms/ProductRow";
 
 const ProductTable = (props) => {
 
+    const filterText = props.filterText;
+    const inStockOnly = props.inStockOnly;
+
     const products = props.products;
 
     const rows = [];
     let lastCategory = null;
 
     products.forEach((product) => {
+
+        if (product.name.indexOf(filterText) ===
+        -1) {
+            return;
+        }
+
+        if (inStockOnly && !product.stocked) {
+            return;
+        }
+
         if (product.category !== lastCategory) {
             rows.push(
                 <ProductCategoryRow
